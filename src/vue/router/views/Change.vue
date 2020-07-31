@@ -1,5 +1,7 @@
 <template lang="pug">
-
+  .container
+    h1 cnahges
+    router-link(to="/") home
 </template>
 
 <script>
