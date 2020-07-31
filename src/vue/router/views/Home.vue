@@ -1,14 +1,18 @@
 <template lang="pug">
   .container
-    h1 home
-    router-link(to="/change") change
+    header
+      h1 TODO list
+      router-link(to="/change") change
+    main.content
+      List
 </template>
 
 <script>
 
+  import List from '../../components/app/List.vue'
   export default {
     name: 'Home',
-    components: {},
+    components: {List},
     data() {
       return {
 
