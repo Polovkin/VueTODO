@@ -3,15 +3,16 @@
     header.list__header
       h2.list__title List
       .list__nav
-        button.list__button Add TODO
-        button.list__button Change TODO
-        button.list__button Remove TODO
+        button.list__button(@click="addTodo") Add TODO
+
     template
-      ListItem(v-for="item in items")
+      ListItem(v-for="item in items", :list-data="item")
+
 </template>
 
 <script>
 import ListItem from './ListItem.vue'
+import {mapGetters} from 'vuex';
 
 export default {
   name: "List.vue",
@@ -21,13 +22,32 @@ export default {
       items: 0,
     }
   },
+  methods: {
+    addTodo() {
+      this.$store.commit('POPUP_STATUS');
+    }
+  },
+
   mounted() {
-    this.items = this.$store.state.todos
+    this.items = this.$store.getters.GET_TODOS;
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+#app {
+  min-height: 100vh;
+
+  & > .container {
+    padding-top: 100px;
+    min-height: inherit;
+  }
+}
+
+#todo {
+  position: relative;
+}
+
 .list {
   &__header {
     @extend %flex-row-between;
@@ -35,10 +55,12 @@ export default {
     padding-left: 20px;
     padding-right: 20px;
   }
+
   &__nav {
     @extend %flex-row-between;
     align-items: center;
   }
+
   &__button {
     margin-left: 10px;
     margin-right: 10px;
@@ -50,11 +72,11 @@ export default {
     border: {
       radius: 10px;
     };
-     @include breakpoint ($desktop__all) {
-         &:hover {
-           transform: scale(1.1);
-         }
+    @include breakpoint($desktop__all) {
+      &:hover {
+        transform: scale(1.1);
       }
+    }
   }
 }
 </style>
