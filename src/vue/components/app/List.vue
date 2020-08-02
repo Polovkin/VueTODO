@@ -4,7 +4,8 @@
       h2.list__title List
       .list__nav
         button.list__button(@click="addTodo") Add TODO
-
+        //button(@click="clear") clear
+        //button(@click="add") add 4
     template
       ListItem(v-for="item in todos", :list-data="item")
 
@@ -25,8 +26,26 @@ export default {
   methods: {
     addTodo() {
       this.$store.commit('POPUP_STATUS');
-    }
+    },
+    clear() {
+      localStorage.clear();
+      console.log(localStorage.getItem('todos'));
+    },
+    add() {
+      function TodoItem(id, title = '', text = '', status = false) {
+        this.id = id;
+        this.title = title;
+        this.text = text;
+        this.status = status;
+      }
+      let arr = []
+      for (let i = 0; i < 4; i++) {
+        arr.push(new TodoItem(i,'заголовок'+ i,'текст' +i,false));
+        localStorage.setItem('todos', JSON.stringify(arr));
+      }
+    },
   },
+
   computed: {
     todos() {
       return this.$store.getters.GET_TODOS;
@@ -38,7 +57,11 @@ export default {
 <style lang="scss">
 #app {
   min-height: 100vh;
-
+button {
+  border: 1px solid black;
+  padding: 10px;
+  margin: 2px;
+}
   & > .container {
     padding-top: 100px;
     min-height: inherit;

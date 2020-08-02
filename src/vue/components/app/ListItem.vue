@@ -1,18 +1,21 @@
 <template lang="pug">
-  .list-item(:id="ListData.id")
+  .list-item(:id="id")
     header.list-item__header
       h3 {{ListData.title}}
-      span # {{ListData.id}}
+      span # {{id}}
     section.list-item__item-body
       p {{ListData.text}}
-
     footer.list-item__control
       .list-item__buttons
         button.list-item__button Change TODO
         button.list-item__button(@click="removeTodo") Remove TODO
       .list-item__status
-        label(for="todostatus")
-          input#todostatus(type="checkbox", v-model="test", @change="setStatus")
+        input.checkbox(
+          :id="`check-${id}`"
+          type="checkbox",
+          v-model="test",
+          @change="setStatus")
+        label(:for="`check-${id}`")
 </template>
 
 <script>
@@ -30,17 +33,15 @@ export default {
   data() {
     return {
       test: this.complete,
+      id: this.ListData.id + 1,
     }
-  },
-  mounted() {
-   // console.log(this.ListData);
   },
   methods: {
     setStatus() {
-      this.$store.dispatch('SET_STATUS',[this.ListData.id,this.test])
+      this.$store.commit('TODO_STATUS', (this.id))
     },
     removeTodo() {
-      this.$store.commit('REMOVE_TODO',(this.ListData.id))
+      this.$store.commit('REMOVE_TODO', (this.ListData.id))
     }
   },
 }
@@ -50,34 +51,76 @@ export default {
        scoped>
 .list-item {
 
-    @extend %flex-column-start;
-    width: 100%;
-    padding: 20px;
-    border: {
-      color: $color__primary;
-      radius: 20px;
-      width: 2px;
-      style: solid;
-    };
-    margin-bottom: 1rem;
+  @extend %flex-column-start;
+  width: 100%;
+  padding: 20px;
+  border: {
+    color: $color__primary;
+    radius: 20px;
+    width: 2px;
+    style: solid;
+  };
+  margin-bottom: 1rem;
+
+  &__status {
+    .checkbox {
+      position: absolute;
+      z-index: -1;
+      opacity: 0;
+      margin: 10px 0 0 20px;
+      & + label {
+        position: relative;
+        padding: 0 0 0 60px;
+        cursor: pointer;
+        &:before {
+          @include pseudoElement(30px);
+          top: -4px;
+          left: 0;
+          transition: .2s;
+          border: 1px solid black;
+        }
+        &:after {
+          @include pseudoElement(20px);
+          transform: translate(-50%,-50%);
+          top: 11px;
+          left: 15px;
+          background: white;
+          transition: .2s;
+        }
+      }
+      &:checked + label {
+        &:after {
+          background: red;
+        }
+        &:before {
+          border-color: green;
+        }
+      }
+
+    }
+  }
 
   &__header {
     @extend %flex-row-between;
     width: 100%;
     align-items: center;
+
     span {
-      font:  {
+      font: {
         weight: bold;
         size: 30px;
       };
     }
   }
+
   &__body {
     @extend %flex-column-start;
+
     label {
       background-color: rebeccapurple;
     }
   }
+
   &__button {
     margin-left: 10px;
     margin-right: 10px;
@@ -95,6 +138,7 @@ export default {
       }
     }
   }
+
   &__control {
     width: 100%;
     @extend %flex-row-between;

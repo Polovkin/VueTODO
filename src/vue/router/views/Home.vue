@@ -5,7 +5,7 @@
       router-link(to="/change") change
     main.content
       List
-      TodoPopup(v-if="test")
+      TodoPopup(v-if="popUp")
 </template>
 
 <script>
@@ -21,13 +21,10 @@ export default {
     };
   },
   computed: {
-    test() {
+    popUp() {
      return this.$store.state.showPopup;
     }
   },
-  mounted() {
-    this.showPopup = this.$store.state.showPopup;
-  }
 };
 </script>
 

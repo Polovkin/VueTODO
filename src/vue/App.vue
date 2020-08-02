@@ -2,6 +2,7 @@
 
   main#app
     router-view
+
 </template>
 
 <script>
