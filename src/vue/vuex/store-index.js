@@ -10,34 +10,42 @@ function TodoItem(id, title = '', text = '', status = false) {
   this.status = status;
 }
 
-function checkStorage () {}
+
+console.log(localStorage.getItem('todos'));
 const store = new Vuex.Store({
   state: {
-    todos: localStorage.getItem('todos')===null ? [] : JSON.parse(localStorage.getItem('todos')),
+    todos: localStorage.getItem('todos') === null ? [] : JSON.parse(localStorage.getItem('todos')),
     showPopup: false,
   },
   mutations: {
     ADD_TODO: (state, data) => {
-      const id = state.todos.length + 1;
+      const id = 1;
+     // const id = state.todos.length;
 
       state.todos.push(new TodoItem(id, ...data));
       localStorage.setItem('todos', JSON.stringify(state.todos));
     },
-    REMOVE_TODO: (state,id) => {
-      console.log(id)
-      console.log(state.todos[id-1].id);
-      //state.todos.splice(0,id-1)
-      //localStorage.setItem('todos', JSON.stringify(state.todos));
-      //console.log(localStorage.getItem('todos')[id])
+    REMOVE_TODO: (state, id) => {
+
+      state.todos = state.todos.filter(item => {
+        return item.id !== id;
+      });
+      state.todos = state.todos.map(function (e, i) {
+        e.id = i;
+      })
+
+      console.log(state.todos);
+      localStorage.setItem('todos', JSON.stringify(state.todos));
     },
     POPUP_STATUS: (state) => {
       state.showPopup = !state.showPopup;
     },
   },
   actions: {
-    SET_STATUS: (state,data) => {
+    SET_STATUS: (state, data) => {
       console.log(data);
-    }
+    },
+
   },
   getters: {
     GET_TODOS: (state) => {

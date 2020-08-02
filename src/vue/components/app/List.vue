@@ -6,7 +6,7 @@
         button.list__button(@click="addTodo") Add TODO
 
     template
-      ListItem(v-for="item in items", :list-data="item")
+      ListItem(v-for="item in todos", :list-data="item")
 
 </template>
 
@@ -27,9 +27,10 @@ export default {
       this.$store.commit('POPUP_STATUS');
     }
   },
-
-  mounted() {
-    this.items = this.$store.getters.GET_TODOS;
+  computed: {
+    todos() {
+      return this.$store.getters.GET_TODOS;
+    }
   }
 }
 </script>

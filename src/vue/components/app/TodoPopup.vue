@@ -2,9 +2,10 @@
   #todoPopup
     .todoPopup__inputs
       label Заголовок
-        input(v-model="title")
-      label Текст
-        input(v-model="text")
+        input(v-model="title", required)
+      label Описание
+        textarea(v-model="text", rows=5)
+      p(v-if="required") Заполните все поля
     .todoPopup__buttons
       button.btn-main(@click="submit") Подтвердить
       button.btn-main(@click="cancel") Отменить
@@ -18,6 +19,7 @@ export default {
     return {
       text: '',
       title: '',
+      required: false,
     }
   },
   methods: {
@@ -25,11 +27,15 @@ export default {
       this.$store.commit('POPUP_STATUS');
     },
     submit() {
-      this.$store.commit('ADD_TODO', [this.text, this.title, false]);
-      this.$store.commit('POPUP_STATUS');
-    }
-  },
-
+      if (this.text && this.title) {
+        this.$store.commit('ADD_TODO', [this.title,this.text,  false]);
+        this.$store.commit('POPUP_STATUS');
+        this.required = false;
+      } else {
+        this.required = true;
+      }
+    },
+  }
 }
 
 </script>
@@ -57,6 +63,9 @@ export default {
 
       & > label {
         @extend %flex-column-center;
+        textarea {
+          resize: none;
+        }
       }
     }
 
