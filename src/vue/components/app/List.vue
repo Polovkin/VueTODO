@@ -1,22 +1,24 @@
 <template lang="pug">
   #todo
     header.list__header
-      h2.list__title List
-      .list__nav
-        button.list__button(@click="addTodo") Add TODO
-        //button(@click="clear") clear
-        //button(@click="add") add 4
+      h2.list__title Спикок задач
+      button изменить
     template
-      ListItem(v-for="item in todos", :list-data="item")
+      ListItem(v-for="item in todos", :list-data="item", :list-type="ListType")
 
 </template>
 
 <script>
 import ListItem from './ListItem.vue'
-import {mapGetters} from 'vuex';
 
 export default {
   name: "List.vue",
+  props: {
+    ListType: {
+      type: String,
+      default: 'List'
+    },
+  },
   components: {ListItem},
   data() {
     return {
@@ -24,26 +26,7 @@ export default {
     }
   },
   methods: {
-    addTodo() {
-      this.$store.commit('POPUP_STATUS');
-    },
-    clear() {
-      localStorage.clear();
-      console.log(localStorage.getItem('todos'));
-    },
-    add() {
-      function TodoItem(id, title = '', text = '', status = false) {
-        this.id = id;
-        this.title = title;
-        this.text = text;
-        this.status = status;
-      }
-      let arr = []
-      for (let i = 0; i < 4; i++) {
-        arr.push(new TodoItem(i,'заголовок'+ i,'текст' +i,false));
-        localStorage.setItem('todos', JSON.stringify(arr));
-      }
-    },
+
   },
 
   computed: {

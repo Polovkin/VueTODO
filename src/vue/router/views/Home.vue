@@ -4,7 +4,7 @@
       h1 TODO list
       router-link(to="/change") change
     main.content
-      List
+      List(:list-type="'list'")
       TodoPopup(v-if="popUp")
 </template>
 
@@ -14,10 +14,10 @@ import List from '../../components/app/List.vue'
 
 export default {
   name: 'Home',
-  components: {List, TodoPopup},
+  components: {List, },
   data() {
     return {
-      showPopup: '',
+
     };
   },
   computed: {

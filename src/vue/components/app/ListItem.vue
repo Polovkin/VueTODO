@@ -5,7 +5,7 @@
       span # {{id}}
     section.list-item__item-body
       p {{ListData.text}}
-    footer.list-item__control
+    footer.list-item__control(v-if="ListType!=='list'")
       .list-item__buttons
         button.list-item__button Change TODO
         button.list-item__button(@click="removeTodo") Remove TODO
@@ -13,7 +13,7 @@
         input.checkbox(
           :id="`check-${id}`"
           type="checkbox",
-          v-model="test",
+          v-model="check",
           @change="setStatus")
         label(:for="`check-${id}`")
 </template>
@@ -29,10 +29,14 @@ export default {
     ListData: {
       type: Object
     },
+    ListType: {
+      type: String,
+      default: 'list'
+    },
   },
   data() {
     return {
-      test: this.complete,
+      check: this.complete,
       id: this.ListData.id + 1,
     }
   },
