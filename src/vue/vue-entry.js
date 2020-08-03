@@ -5,8 +5,7 @@ import router from './router/routes';
 import store from './vuex/store-index';
 Vue.config.productionTip = false;
 
-// Vue.component('example-component', require('./widgets/Example.vue').default);
-// Vue.component('primary-button', require('./widgets/PrimaryButton.vue').default);
+
 
 new Vue({
   router,

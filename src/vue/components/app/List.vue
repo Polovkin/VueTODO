@@ -25,10 +25,6 @@ export default {
       items: 0,
     }
   },
-  methods: {
-
-  },
-
   computed: {
     todos() {
       return this.$store.getters.GET_TODOS;
