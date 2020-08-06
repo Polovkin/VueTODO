@@ -1,14 +1,15 @@
 <template lang="pug">
-  #todoPopup
-    .todoPopup__inputs
-      label Заголовок
-        input(v-model="title", required)
-      label Описание
-        textarea(v-model="text", rows=5)
-      p(v-if="required") Заполните все поля
-    .todoPopup__buttons
-      button.btn-main(@click="submit") Подтвердить
-      button.btn-main(@click="cancel") Отменить
+  .bg
+    #todoPopup
+      .todoPopup__inputs
+        label Заголовок
+          input(v-model="title", required)
+        label Описание
+          textarea(v-model="text", rows=5)
+        p(v-if="required") Заполните все поля
+      .todoPopup__buttons
+        button.btn-main(@click="submit") Подтвердить
+        button.btn-main(@click="cancel") Отменить
 
 </template>
 
@@ -42,6 +43,14 @@ export default {
 
 <style scoped
        lang="scss">
+.bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba($color__dark,.5);
+}
 #todoPopup {
   position: absolute;
   transform: translate(-50%, -50%);
@@ -55,7 +64,8 @@ export default {
   justify-content: space-around;
   align-items: center;
   background-color: $color__light;
-  border: 1px solid black;
+  border: 1px solid $color__primary;
+  border-radius: 10px;
 
   .todoPopup {
     &__inputs {

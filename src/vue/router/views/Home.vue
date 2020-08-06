@@ -1,7 +1,7 @@
 <template lang="pug">
   .container
     header
-      h1 TODO list
+      h1 TODO List
       router-link(to="/change") change
     main.content
       List(:list-type="'list'")
@@ -29,6 +29,9 @@ export default {
 </script>
 
 <style lang="scss">
-
+h1 {
+  font-size: 80px;
+  text-align: center;
+}
 
 </style>

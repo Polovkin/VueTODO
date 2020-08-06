@@ -34,8 +34,8 @@ const store = new Vuex.Store({
     POPUP_STATUS: (state) => {
       state.showPopup = !state.showPopup;
     },
-    TODO_STATUS: (state,id) => {
-      console.log(id);
+    TODO_STATUS: (state, data) => {
+      console.log(data.id, data.status);
     }
   },
   actions: {},
@@ -43,6 +43,16 @@ const store = new Vuex.Store({
     GET_TODOS: (state) => {
       return state.todos;
     },
+    GET_CHECK: function (state) {
+
+      return function (itemId) {
+        for (let i = 0; i < state.todos.length ; i++) {
+          if (state.todos[i].id===itemId) {
+            return state.todos[i].status
+          }
+         }
+        }
+      }
   },
 });
 

@@ -2,7 +2,12 @@
   #todo
     header.list__header
       h2.list__title Спикок задач
-      button изменить
+      .list__buttons(v-if="ListType==='list'")
+        router-link(to="/change") Изменить
+      .list__buttons(v-else)
+        button.list__button(@click="addTodo") Add TODO
+        router-link(to="/") На главную
+
     template
       ListItem(v-for="item in todos", :list-data="item", :list-type="ListType")
 
@@ -25,6 +30,11 @@ export default {
       items: 0,
     }
   },
+  methods: {
+    addTodo() {
+      this.$store.commit('POPUP_STATUS');
+    },
+  },
   computed: {
     todos() {
       return this.$store.getters.GET_TODOS;
@@ -36,11 +46,8 @@ export default {
 <style lang="scss">
 #app {
   min-height: 100vh;
-button {
-  border: 1px solid black;
-  padding: 10px;
-  margin: 2px;
-}
+
+
   & > .container {
     padding-top: 100px;
     min-height: inherit;
@@ -64,22 +71,13 @@ button {
     align-items: center;
   }
 
-  &__button {
-    margin-left: 10px;
-    margin-right: 10px;
-    padding: 10px 20px;
-    background-color: $color__primary;
-    color: $color__light;
-    font-weight: bold;
-    transition: all $animation-fast;
-    border: {
-      radius: 10px;
-    };
-    @include breakpoint($desktop__all) {
-      &:hover {
-        transform: scale(1.1);
-      }
+  &__buttons {
+    a {
+      margin-right: 1rem;
     }
+
+    @extend %flex-row-between;
+    align-items: center;
   }
 }
 </style>

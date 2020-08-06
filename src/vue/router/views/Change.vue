@@ -1,16 +1,11 @@
 <template lang="pug">
   .container
     header
-      h1 TODO list
-      router-link(to="/") home
-      .list__nav
-        button.list__button(@click="addTodo") Add TODO
-
-        //button(@click="clear") clear
-        //button(@click="add") add 4
+      h1 TODO List
     main.content
       List(:list-type="'change'")
       TodoPopup(v-if="popUp")
+
 </template>
 
 <script>
@@ -24,9 +19,7 @@ export default {
     return {};
   },
   methods: {
-    addTodo() {
-      this.$store.commit('POPUP_STATUS');
-    },
+
     clear() {
       localStorage.clear();
       console.log(localStorage.getItem('todos'));

@@ -1,0 +1,18 @@
+button {
+  font-size: 14px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 10px 20px;
+  background-color: $color__primary;
+  color: $color__light;
+  transition: all $animation-fast;
+  border: {
+    radius: 10px;
+    color: $color__primary;
+  };
+  @include breakpoint($desktop__all) {
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}

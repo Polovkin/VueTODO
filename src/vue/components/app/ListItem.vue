@@ -1,10 +1,10 @@
 <template lang="pug">
   .list-item(:id="id")
-    header.list-item__header
+    header.list-item__header(:class="{checked: check}")
       h3 {{ListData.title}}
       span # {{id}}
-    section.list-item__item-body
-      p {{ListData.text}}
+    .list-item__item-body
+      p(v-if="!check") {{ListData.text}}
     footer.list-item__control(v-if="ListType!=='list'")
       .list-item__buttons
         button.list-item__button Change TODO
@@ -36,18 +36,27 @@ export default {
   },
   data() {
     return {
-      check: this.complete,
+      check: '',
       id: this.ListData.id + 1,
     }
   },
+  computed:{
+    checkStatus(){
+      return  this.$store.get('TODO_STATUS', {id: this.id, status: this.check})
+    },
+
+  },
   methods: {
     setStatus() {
-      this.$store.commit('TODO_STATUS', (this.id))
+      this.$store.commit('TODO_STATUS', {id: this.id, status: this.check})
     },
     removeTodo() {
       this.$store.commit('REMOVE_TODO', (this.ListData.id))
     }
   },
+  mounted() {
+    this.check = this.$store.getters.GET_CHECK(this.ListData.id)
+  }
 }
 </script>
 
@@ -72,10 +81,12 @@ export default {
       z-index: -1;
       opacity: 0;
       margin: 10px 0 0 20px;
+
       & + label {
         position: relative;
         padding: 0 0 0 60px;
         cursor: pointer;
+
         &:before {
           @include pseudoElement(30px);
           top: -4px;
@@ -83,19 +94,22 @@ export default {
           transition: .2s;
           border: 1px solid black;
         }
+
         &:after {
           @include pseudoElement(20px);
-          transform: translate(-50%,-50%);
+          transform: translate(-50%, -50%);
           top: 11px;
           left: 15px;
           background: white;
           transition: .2s;
         }
       }
+
       &:checked + label {
         &:after {
-          background: red;
+          background: $color__primary;
         }
+
         &:before {
           border-color: green;
         }
@@ -108,6 +122,18 @@ export default {
     @extend %flex-row-between;
     width: 100%;
     align-items: center;
+    position: relative;
+
+    &.checked {
+      &:after {
+        @include pseudoElement(100%);
+        top: 50%;
+        left: 0;
+        height: 2px;
+        background-color: black;
+      }
+    }
+
 
     span {
       font: {
