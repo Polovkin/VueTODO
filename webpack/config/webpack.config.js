@@ -39,6 +39,7 @@ const plugins = (type) => {
       ]
     }),
     new CleanWebpackPlugin(),
+    //new BundleAnalyzerPlugin()
   ];
   switch (type) {
     case 'html': {

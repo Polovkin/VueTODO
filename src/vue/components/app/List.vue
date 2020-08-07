@@ -9,7 +9,7 @@
         router-link(to="/") На главную
 
     template
-      ListItem(v-for="item in todos", :list-data="item", :list-type="ListType")
+      ListItem(v-for="item in todos", :list-data="item", :list-type="ListType", :key="item.id")
 
 </template>
 

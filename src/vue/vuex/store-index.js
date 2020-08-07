@@ -21,22 +21,32 @@ const store = new Vuex.Store({
       state.todos.push(new TodoItem(state.todos.length, ...data));
       localStorage.setItem('todos', JSON.stringify(state.todos));
     },
+    TODO_STATUS: (state, data) => {
+      state.todos = state.todos.map((e) => {
+        if (e.id === (data.id - 1)) {
+          e.status = data.status
+        }
+        return e;
+      })
+      console.log(state.todos );
+      localStorage.setItem('todos', JSON.stringify(state.todos));
+    },
     REMOVE_TODO: (state, id) => {
       state.todos = state.todos.filter(item => {
         return item.id !== id;
       });
+
       state.todos = state.todos.map(function (value, index) {
         value.id = index;
         return value;
       })
       localStorage.setItem('todos', JSON.stringify(state.todos));
+      console.log(state.todos);
     },
     POPUP_STATUS: (state) => {
       state.showPopup = !state.showPopup;
     },
-    TODO_STATUS: (state, data) => {
-      console.log(data.id, data.status);
-    }
+
   },
   actions: {},
   getters: {
@@ -44,15 +54,14 @@ const store = new Vuex.Store({
       return state.todos;
     },
     GET_CHECK: function (state) {
-
       return function (itemId) {
-        for (let i = 0; i < state.todos.length ; i++) {
-          if (state.todos[i].id===itemId) {
+        for (let i = 0; i < state.todos.length; i++) {
+          if (state.todos[i].id === itemId) {
             return state.todos[i].status
           }
-         }
         }
       }
+    }
   },
 });
 
