@@ -1,6 +1,6 @@
 <template lang="pug">
   .list-item(:id="id")
-    header.list-item__header(:class="{checked: check}")
+    header.list-item__header(:class="{checked: checkComputed}")
       h3 {{ListData.title}}
       span # {{id}}
     .list-item__item-body
@@ -44,7 +44,9 @@ export default {
     checkStatus(){
       return  this.$store.get('TODO_STATUS', {id: this.id, status: this.check})
     },
-
+    checkComputed() {
+      return this.check = this.$store.getters.GET_CHECK(this.ListData.id)
+    }
   },
   methods: {
     setStatus() {
@@ -54,9 +56,7 @@ export default {
       this.$store.commit('REMOVE_TODO', (this.ListData.id))
     }
   },
-  mounted() {
-    this.check = this.$store.getters.GET_CHECK(this.ListData.id)
-  }
+
 }
 </script>
 

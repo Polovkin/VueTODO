@@ -26,10 +26,11 @@ const store = new Vuex.Store({
         if (e.id === (data.id - 1)) {
           e.status = data.status
         }
+
         return e;
       })
-      console.log(state.todos );
       localStorage.setItem('todos', JSON.stringify(state.todos));
+
     },
     REMOVE_TODO: (state, id) => {
       state.todos = state.todos.filter(item => {
