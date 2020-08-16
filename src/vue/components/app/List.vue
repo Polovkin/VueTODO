@@ -3,14 +3,14 @@
     header.list__header
       h2.list__title Спикок задач
       .list__buttons(v-if="ListType==='list'")
-        router-link.btn-revert(to="/change") Изменить
+        router-link.btn-revert(to="/change") Редактирование
       .list__buttons(v-else)
         button.list__button(@click="addTodo") Add TODO
         router-link.btn-revert(to="/") На главную
-
-    template
-      ListItem(v-for="item in todos", :list-data="item", :list-type="ListType", :key="item.id")
-
+    .list__body
+      template(v-if="todos.length")
+        ListItem(v-for="item in todos", :list-data="item", :list-type="ListType", :key="item.id")
+      h2.error(v-else) Нету задач
 </template>
 
 <script>
@@ -30,6 +30,7 @@ export default {
       items: 0,
     }
   },
+
   methods: {
     addTodo() {
       this.$store.commit('POPUP_STATUS');
@@ -51,9 +52,24 @@ export default {
 
 #todo {
   position: relative;
+  height: 100%;
 }
-
+.content {
+  height: calc(100vh - 92px);
+}
+.error {
+  text-align: center;
+  transform: translate(-50%,-50%);
+  top: 20%;
+  left: 50%;
+  position: absolute;
+}
 .list {
+  &__body {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
   &__header {
     @extend %flex-row-between;
     align-items: center;
