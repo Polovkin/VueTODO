@@ -54,30 +54,34 @@ export default {
   position: relative;
   height: 100%;
 }
+
 .content {
   height: calc(100vh - 92px);
 }
+
 .error {
   text-align: center;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   top: 20%;
   left: 50%;
   position: absolute;
 }
+
 .list {
   &__body {
     position: relative;
     width: 100%;
     height: 100%;
   }
+
   &__header {
     @extend %flex-row-between;
     align-items: center;
     justify-content: space-between;
-     @include breakpoint ($phone__all) {
-         flex-direction: column;
-       align-items: center;
-      }
+    @include breakpoint($phone__all) {
+      flex-direction: column;
+      align-items: center;
+    }
 
   }
 
