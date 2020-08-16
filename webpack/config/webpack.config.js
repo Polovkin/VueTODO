@@ -19,7 +19,7 @@ const PATHS = {
   assets: 'assets/',
 };
 
-const fileName = ext => isDev ? `[name].${ext}` : `[name].[hash].${ext}`
+const fileName = ext => isDev ? `[name].${ext}` : `[name].${ext}`
 const plugins = (type) => {
   const base = [
     new VueLoaderPlugin(),
