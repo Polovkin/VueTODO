@@ -7,8 +7,8 @@
       p(v-if="!check") {{ListData.text}}
     footer.list-item__control(v-if="ListType!=='list'")
       .list-item__buttons
-        button.list-item__button Change TODO
-        button.list-item__button(@click="removeTodo") Remove TODO
+        button(@click="changeTodo") Редактировать
+        button.btn-revert(@click="removeTodo") Удалить
       .list-item__status
         input.checkbox(
           :id="`check-${id}`"
@@ -40,9 +40,9 @@ export default {
       id: this.ListData.id + 1,
     }
   },
-  computed:{
-    checkStatus(){
-      return  this.$store.get('TODO_STATUS', {id: this.id, status: this.check})
+  computed: {
+    checkStatus() {
+      return this.$store.get('TODO_STATUS', {id: this.id, status: this.check})
     },
     checkComputed() {
       return this.check = this.$store.getters.GET_CHECK(this.ListData.id)
@@ -54,7 +54,10 @@ export default {
     },
     removeTodo() {
       this.$store.commit('REMOVE_TODO', (this.ListData.id))
-    }
+    },
+    changeTodo() {
+      this.$store.commit('POPUP_CHANGE', {text: this.ListData.text, title: this.ListData.title, id: this.ListData.id});
+    },
   },
 
 }
@@ -63,18 +66,20 @@ export default {
 <style lang="scss"
        scoped>
 .list-item {
-
+  color: $color__font--secondary;
+  background-color: $color__light;
   @extend %flex-column-start;
   width: 100%;
   padding: 20px;
   border: {
     color: $color__primary;
-    radius: 20px;
     width: 2px;
     style: solid;
   };
-  margin-bottom: 1rem;
-
+  margin-bottom: 2px;
+ @include breakpoint ($phone__all) {
+   padding: 15px;
+  }
   &__status {
     .checkbox {
       position: absolute;
@@ -151,28 +156,17 @@ export default {
     }
   }
 
-  &__button {
-    margin-left: 10px;
-    margin-right: 10px;
-    padding: 10px 20px;
-    background-color: $color__primary;
-    color: $color__light;
-    font-weight: bold;
-    transition: all $animation-fast;
-    border: {
-      radius: 10px;
-    };
-    @include breakpoint($desktop__all) {
-      &:hover {
-        transform: scale(1.1);
-      }
-    }
+  &__buttons {
+    display: flex;
   }
+
 
   &__control {
     width: 100%;
-    @extend %flex-row-between;
+    display: flex;
     align-items: center;
+    justify-content: space-between;
+
   }
 }
 

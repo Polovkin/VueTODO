@@ -24,5 +24,7 @@
 </script>
 
 <style lang="scss">
-
+#app {
+  background-color: #1e0521;
+}
 </style>

@@ -1,18 +1,38 @@
 button {
   font-size: 14px;
-  margin-left: 10px;
-  margin-right: 10px;
+
+  height: 40px;
   padding: 10px 20px;
-  background-color: $color__primary;
-  color: $color__light;
+
   transition: all $animation-fast;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color__light;
   border: {
-    radius: 10px;
     color: $color__primary;
   };
+  background-color: $color__primary;
+
   @include breakpoint($desktop__all) {
     &:hover {
-      transform: scale(1.1);
+      transform: scale(1.06);
+      position: relative;
+      z-index: z(content);
     }
   }
+  @include breakpoint($mobile__all) {
+    padding: 5px 15px;
+    font-size: 12px;
+  }
+}
+
+.btn-revert {
+  @extend button;
+
+  color: $color__primary;
+  border: 2px solid $color__primary;
+  background-color: $color__light;
+
+
 }

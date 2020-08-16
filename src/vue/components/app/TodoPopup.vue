@@ -8,8 +8,8 @@
           textarea(v-model="text", rows=5)
         p(v-if="required") Заполните все поля
       .todoPopup__buttons
-        button.btn-main(@click="submit") Подтвердить
-        button.btn-main(@click="cancel") Отменить
+        button(@click="submit") Подтвердить
+        button.btn-revert(@click="cancel") Отменить
 
 </template>
 
@@ -21,6 +21,12 @@ export default {
       text: '',
       title: '',
       required: false,
+      change: false,
+    }
+  },
+  mounted() {
+    for (let key in this.$store.state.popupData) {
+      this[key] = this.$store.state.popupData[key];
     }
   },
   methods: {
@@ -28,10 +34,13 @@ export default {
       this.$store.commit('POPUP_STATUS');
     },
     submit() {
-      if (this.text && this.title) {
-        this.$store.commit('ADD_TODO', [this.title,this.text,  false]);
+      if (this.text && this.title && !this.change) {
+        this.$store.commit('ADD_TODO', [this.title, this.text, false]);
         this.$store.commit('POPUP_STATUS');
         this.required = false;
+      } else if (this.text && this.title && this.change) {
+        this.$store.commit('CHANGE_TODO', {text: this.text, title: this.title});
+        this.$store.commit('POPUP_STATUS');
       } else {
         this.required = true;
       }
@@ -49,8 +58,9 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba($color__dark,.5);
+  background-color: rgba($color__dark, .5);
 }
+
 #todoPopup {
   position: absolute;
   transform: translate(-50%, -50%);
@@ -58,29 +68,44 @@ export default {
   top: 30%;
   left: 50%;
   width: 500px;
-  height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
   background-color: $color__light;
-  border: 1px solid $color__primary;
-  border-radius: 10px;
+  border: 2px solid $color__primary;
 
   .todoPopup {
     &__inputs {
       @extend %flex-column-center;
+      width: 80%;
 
       & > label {
+        color: $color__font--secondary;
+        font-weight: bold;
+        padding-top: 10px;
+        width: 100%;
         @extend %flex-column-center;
+        font-size: 20px;
+
+        input, textarea {
+          margin-top: 10px;
+          width: inherit;
+          border: 1px solid $color__primary;
+          color: $color__font--secondary;
+        }
+
+
         textarea {
+
           resize: none;
         }
       }
     }
 
     &__buttons {
-      width: 70%;
+      margin-top: 1rem;
+      width: 80%;
       @extend %flex-row-between;
     }
   }

@@ -3,10 +3,10 @@
     header.list__header
       h2.list__title Спикок задач
       .list__buttons(v-if="ListType==='list'")
-        router-link(to="/change") Изменить
+        router-link.btn-revert(to="/change") Изменить
       .list__buttons(v-else)
         button.list__button(@click="addTodo") Add TODO
-        router-link(to="/") На главную
+        router-link.btn-revert(to="/") На главную
 
     template
       ListItem(v-for="item in todos", :list-data="item", :list-type="ListType", :key="item.id")
@@ -47,11 +47,6 @@ export default {
 #app {
   min-height: 100vh;
 
-
-  & > .container {
-    padding-top: 100px;
-    min-height: inherit;
-  }
 }
 
 #todo {
@@ -62,8 +57,12 @@ export default {
   &__header {
     @extend %flex-row-between;
     align-items: center;
-    padding-left: 20px;
-    padding-right: 20px;
+    justify-content: space-between;
+     @include breakpoint ($phone__all) {
+         flex-direction: column;
+       align-items: center;
+      }
+
   }
 
   &__nav {
@@ -72,9 +71,7 @@ export default {
   }
 
   &__buttons {
-    a {
-      margin-right: 1rem;
-    }
+
 
     @extend %flex-row-between;
     align-items: center;
